@@ -16,7 +16,9 @@ h1{
 main{
     margin:auto;
     max-height: 960px;
+    min-height: 300px;
     max-width: 66%;
+    border: thin solid white;
 }
 main p, footer p{
     margin:auto;
@@ -47,14 +49,13 @@ li{
     text-align: left;
 }
 #pics-container{
-    align-content: center;
+    text-align: center;
     height:600;
-
 }
 #pics-container img{
-    max-width: 32%;
-    max-height:32%;
-    object-fit: fill;
+    height:190px;
+    max-width: 340px;
+    object-fit: contain;
 }
 
 button{
