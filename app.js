@@ -66,6 +66,7 @@ function renderPictures() {
     rightImgEl.src = right.url;
     rightImgEl.name = right.name;
 
+    //number of times each image was displayed
     left.timesDisplayed = left.timesDisplayed + 1;
     middle.timesDisplayed = middle.timesDisplayed + 1;
     right.timesDisplayed = right.timesDisplayed + 1;
@@ -80,23 +81,28 @@ function handleClick(event){
   // increase number of votes
   totalVotes = totalVotes + 1;
 
-  //increase the times clicked
-  let imageTarget = event.target;
-  console.log(imageTarget.name);
-  for ( let i = 0; i < allImages.length; i++ ){
-    if (imageTarget.name === allImages[i].name){
-      allImages[i].increaseClicks();
+  //Display Results if totalVotes = 25
+  if(totalVotes == 25){
+    displayResults();
+  }else if(totalVotes < 25){
+
+    //increase the times clicked
+    let imageTarget = event.target;
+    console.log(imageTarget.name);
+    for ( let i = 0; i < allImages.length; i++ ){
+      if (imageTarget.name === allImages[i].name){
+        allImages[i].increaseClicks();
+      }
     }
+    //get new pics
+    renderPictures();
   }
-
-
-  //get new pics
-  renderPictures();
 }
 
-
-
-//number of times each image was displayed
+function displayResults(){
+  let buttonEl = document.getElementById('button');
+  buttonEl.innerText= "Click For Results";
+}
 
 //must have 25 votes before results
 

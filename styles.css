@@ -1,3 +1,8 @@
 #pics-container img{
     max-width: 25%;
     max-height:25%;
+}
+button{
+    height:50px;
+    width:75px;
+}
