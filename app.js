@@ -3,6 +3,7 @@
 //declare global variables
 let allImages = [];
 let totalVotes = 25;
+let availableImages = [];
 
 let leftImgEl = document.getElementById('left-pic');
 let middleImgEl = document.getElementById('middle-pic');
@@ -19,6 +20,7 @@ function ProductImage (name, url) {
   this.timesDisplayed = 0;
   this.timesClicked = 0;
   allImages.push(this);
+  availableImages.push(this);
   this.increaseClicks = function(){
     this.timesClicked = this.timesClicked + 1;
   };
@@ -46,17 +48,23 @@ new ProductImage('Unicorn', 'unicorn.jpg');
 new ProductImage('Water-Can', 'water-can.jpg');
 new ProductImage('Wine-Glass', 'wine-glass.jpg');
 
+
+
+let unavailableImgs = [];
+
 //generate random number to select picture from array
 
 function renderPictures() {
-  let leftIndex = Math.floor(Math.random() * allImages.length);
-  let middleIndex = Math.floor(Math.random() * allImages.length);
-  let rightIndex = Math.floor(Math.random() * allImages.length);
+  let leftIndex = Math.floor(Math.random() * availableImages.length);
+  let middleIndex = Math.floor(Math.random() * availableImages.length);
+  let rightIndex = Math.floor(Math.random() * availableImages.length);
 
 
-  let left= allImages[leftIndex];
-  let middle = allImages[middleIndex];
-  let right = allImages[rightIndex];
+  let left= availableImages[leftIndex];
+  let middle = availableImages[middleIndex];
+  let right = availableImages[rightIndex];
+
+
 
   if (leftIndex === middleIndex || middleIndex === rightIndex ||leftIndex === rightIndex){
     renderPictures();
@@ -72,9 +80,21 @@ function renderPictures() {
     left.timesDisplayed = left.timesDisplayed + 1;
     middle.timesDisplayed = middle.timesDisplayed + 1;
     right.timesDisplayed = right.timesDisplayed + 1;
+
+    //ADD FEATURE: CANNOT HAS SAME PIC IN CONSECUTIVE RENDERS
+    unavailableImgs.push(left, middle, right);
+    availableImages = [];
+    for (let i = 0; i < allImages.length; i++){
+      if(allImages[i] !== unavailableImgs[0] && allImages[i] !== unavailableImgs[1] && allImages[i] !== unavailableImgs[2]){
+        availableImages.push(allImages[i]);
+    } 
+    
+
+
+    }console.log(availableImages) 
+    unavailableImgs = [];
   }
 }
-
 
 //create event handler
 function handleClick(event){
@@ -83,7 +103,7 @@ function handleClick(event){
   // increase number of votes
   totalVotes = totalVotes - 1;
 
-  //Display Results if totalVotes = 25
+  //Display Results Button if totalVotes = 25
   if(totalVotes === 0){
     activateButton();
   }else if(totalVotes > 0){
@@ -96,6 +116,8 @@ function handleClick(event){
         allImages[i].increaseClicks();
       }
     }
+    //**************renderChart***********
+
     //get new pics
     renderPictures();
   }
@@ -109,7 +131,19 @@ function activateButton(){
   buttonEl.addEventListener('click', postResults);
 }
 
+function renderChart(){
 
+  //grab canvas element
+  let ctx = document.getElementById('my-chart').getContext('2d');
+  const labels = [];
+  const data = [];
+  for (let i = 0; i < allImages.length; i++){
+    labels.push(allImages[i].name);
+    data.push(allImages[i].timesClicked);
+  }
+  //create new Chart, give it data
+  let resultsChart = new CharacterData(ctx,)
+}
 
 
 function postResults(){
@@ -147,4 +181,3 @@ leftImgEl.addEventListener('click', handleClick);
 middleImgEl.addEventListener('click', handleClick);
 rightImgEl.addEventListener('click', handleClick);
 renderPictures();
-console.log(allImages);
