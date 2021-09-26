@@ -87,7 +87,7 @@ function renderPictures() {
     for (let i = 0; i < allImages.length; i++){
       if(allImages[i] !== unavailableImgs[0] && allImages[i] !== unavailableImgs[1] && allImages[i] !== unavailableImgs[2]){
         availableImages.push(allImages[i]);
-    } 
+      } 
     
 
 
@@ -135,15 +135,76 @@ function renderChart(){
 
   //grab canvas element
   let ctx = document.getElementById('my-chart').getContext('2d');
-  const labels = [];
-  const data = [];
+  let chartEl = document.getElementById('my-chart');
+  chartEl.innerHTML = '';
+
+  const nameLabels = [];
+  const dataClicks = [];
+  const dataDisplayed = [];
+
   for (let i = 0; i < allImages.length; i++){
-    labels.push(allImages[i].name);
-    data.push(allImages[i].timesClicked);
+    nameLabels.push(allImages[i].name);
+    dataClicks.push(allImages[i].timesClicked);
+    dataDisplayed.push(allImages[i].timesDisplayed);
   }
+
   //create new Chart, give it data
-  let resultsChart = new CharacterData(ctx,)
+
+  let resultsChart = new Chart(ctx,{
+    type: 'bar',
+    data: {
+      labels: nameLabels,
+      datasets:[{
+        label: '# of clicks',
+        data: dataClicks,
+        backgroundColor: [
+          'rgba(255, 99, 132, 1.0)',
+          'rgba(54, 162, 235, 1.0)',
+          'rgba(255, 206, 86, 1.0)',
+          'rgba(75, 192, 192, 1.0)',
+          'rgba(153, 102, 255, 1.0)',
+          'rgba(255, 159, 64, 1.0)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+      }, {
+        label:'# times shown',
+        data: dataDisplayed,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
 }
+
 
 
 function postResults(){
@@ -158,6 +219,8 @@ function postResults(){
   listEl.style.overflow = 'scroll';
   listEl.style.border = 'thin solid black';
   buttonClicked = true;
+  renderChart();
+  console.log(allImages);
 }
 
 
