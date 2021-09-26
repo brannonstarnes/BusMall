@@ -8,6 +8,7 @@ let leftImgEl = document.getElementById('left-pic');
 let middleImgEl = document.getElementById('middle-pic');
 let rightImgEl = document.getElementById('right-pic'); 
 
+let listEl = document.getElementById('list');
 
 //image object constructor
 
@@ -83,7 +84,7 @@ function handleClick(event){
 
   //Display Results if totalVotes = 25
   if(totalVotes == 25){
-    displayResults();
+    activateButton();
   }else if(totalVotes < 25){
 
     //increase the times clicked
@@ -99,12 +100,39 @@ function handleClick(event){
   }
 }
 
-function displayResults(){
+function activateButton(){
   let buttonEl = document.getElementById('button');
   buttonEl.innerText= "Click For Results";
+  buttonEl.addEventListener('click', postResults)
 }
 
-//must have 25 votes before results
+
+
+function postResults(){
+  for (let i = 0; i < allImages.length; i++){
+    let perChosen = Math.floor((allImages[i].timesClicked / allImages[i].timesDisplayed) * 100);
+    let newLI = document.createElement('li');
+    newLI.innerText =  `${allImages[i].name}: ${allImages[i].timesClicked} clicks. ${perChosen}% selection rate.`;
+    listEl.appendChild(newLI);
+  }
+}
+
+
+
+// let highToLow = [];
+// let highScore = allImages[0].timesClicked;
+
+
+//find the "highest scoring"
+// function tallyResults(){
+//   for (let i = 0; i < allImages.length - highToLow.length; i++){
+//     if (allImages[i].timesClicked > highScore){
+//       highScore = allImages[i];
+//     }
+//   }highToLow.push(highScore);
+// }
+
+
 
 leftImgEl.addEventListener('click', handleClick);
 middleImgEl.addEventListener('click', handleClick);
