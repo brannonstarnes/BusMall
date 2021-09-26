@@ -2,7 +2,7 @@
 
 //declare global variables
 let allImages = [];
-let totalVotes = 0;
+let totalVotes = 25;
 
 let leftImgEl = document.getElementById('left-pic');
 let middleImgEl = document.getElementById('middle-pic');
@@ -10,6 +10,7 @@ let rightImgEl = document.getElementById('right-pic');
 
 let listEl = document.getElementById('list');
 
+let buttonClicked = false;
 //image object constructor
 
 function ProductImage (name, url) {
@@ -80,12 +81,12 @@ function handleClick(event){
   event.preventDefault();
 
   // increase number of votes
-  totalVotes = totalVotes + 1;
+  totalVotes = totalVotes - 1;
 
   //Display Results if totalVotes = 25
-  if(totalVotes == 25){
+  if(totalVotes === 0){
     activateButton();
-  }else if(totalVotes < 25){
+  }else if(totalVotes > 0){
 
     //increase the times clicked
     let imageTarget = event.target;
@@ -103,18 +104,21 @@ function handleClick(event){
 function activateButton(){
   let buttonEl = document.getElementById('button');
   buttonEl.innerText= "Click For Results";
-  buttonEl.addEventListener('click', postResults)
+  buttonEl.addEventListener('click', postResults);
 }
 
 
 
+
 function postResults(){
-  for (let i = 0; i < allImages.length; i++){
-    let perChosen = Math.floor((allImages[i].timesClicked / allImages[i].timesDisplayed) * 100);
-    let newLI = document.createElement('li');
-    newLI.innerText =  `${allImages[i].name}: ${allImages[i].timesClicked} clicks. ${perChosen}% selection rate.`;
-    listEl.appendChild(newLI);
-  }
+  if(buttonClicked !== true){
+    for (let i = 0; i < allImages.length; i++){
+      let perChosen = Math.floor((allImages[i].timesClicked / allImages[i].timesDisplayed) * 100);
+      let newLI = document.createElement('li');
+      newLI.innerText =  `${allImages[i].name}: ${allImages[i].timesClicked} clicks. ${perChosen}% selection rate.`;
+      listEl.appendChild(newLI);
+    }
+  } buttonClicked = true;
 }
 
 
