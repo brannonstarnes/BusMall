@@ -34,17 +34,17 @@ new ProductImage('Breakfast', 'breakfast.jpg');
 new ProductImage('Bubblegum', 'bubblegum.jpg');
 new ProductImage('Chair', 'chair.jpg');
 new ProductImage('Cthulu', 'cthulhu.jpg');
-new ProductImage('DogDuck', 'dog-duck.jpg');
+new ProductImage('Dog-Duck', 'dog-duck.jpg');
 new ProductImage('Dragon', 'dragon.jpg');
 new ProductImage('Pen', 'pen.jpg');
-new ProductImage('PetSweep', 'pet-sweep.jpg');
+new ProductImage('Pet-Sweep', 'pet-sweep.jpg');
 new ProductImage('Scissors', 'scissors.jpg');
 new ProductImage('Shark', 'shark.jpg');
 new ProductImage('Sweep', 'sweep.png');
 new ProductImage('Tauntaun', 'tauntaun.jpg');
 new ProductImage('Unicorn', 'unicorn.jpg');
-new ProductImage('WaterCan', 'water-can.jpg');
-new ProductImage('WineGlass', 'wine-glass.jpg');
+new ProductImage('Water-Can', 'water-can.jpg');
+new ProductImage('Wine-Glass', 'wine-glass.jpg');
 
 //generate random number to select picture from array
 
@@ -103,6 +103,8 @@ function handleClick(event){
 
 function activateButton(){
   let buttonEl = document.getElementById('button');
+  buttonEl.style.height = '80px';
+  buttonEl.style.visibility = 'visible';
   buttonEl.innerText= "Click For Results";
   buttonEl.addEventListener('click', postResults);
 }
@@ -115,10 +117,13 @@ function postResults(){
     for (let i = 0; i < allImages.length; i++){
       let perChosen = Math.floor((allImages[i].timesClicked / allImages[i].timesDisplayed) * 100);
       let newLI = document.createElement('li');
-      newLI.innerText =  `${allImages[i].name}: ${allImages[i].timesClicked} clicks. ${perChosen}% selection rate.`;
+      newLI.innerText =  `${allImages[i].name}: ${allImages[i].timesClicked} clicks. Seen: ${allImages[i].timesDisplayed} times. ${perChosen}% selection rate.`;
       listEl.appendChild(newLI);
     }
-  } buttonClicked = true;
+  } document.getElementById('resultHeader').style.visibility = 'visible';
+  listEl.style.overflow = 'scroll';
+  listEl.style.border = 'thin solid black';
+  buttonClicked = true;
 }
 
 
