@@ -157,6 +157,7 @@ function renderChart(){
       datasets:[{
         label: '# of clicks',
         data: dataClicks,
+        color: 'rgba(255,255,255)',
         backgroundColor: [
           'rgba(255, 99, 132, 1.0)',
           'rgba(54, 162, 235, 1.0)',
