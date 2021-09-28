@@ -2,18 +2,20 @@
 
 //declare global variables
 let allImages = [];
-let totalVotes = 25;
+let remainingVotes = 25;
 let availableImages = [];
+let fetchedData = localStorage.getItem('allResults');
+let parsedData = JSON.parse(fetchedData);
+let buttonClicked = false;
 
+//DOM Elements
 let leftImgEl = document.getElementById('left-pic');
 let middleImgEl = document.getElementById('middle-pic');
 let rightImgEl = document.getElementById('right-pic'); 
-
 let listEl = document.getElementById('list');
 
-let buttonClicked = false;
-//image object constructor
 
+//image object constructor
 function ProductImage (name, url) {
   this.name = name;
   this.url = `images/lab/assets/${url}`;
@@ -27,7 +29,6 @@ function ProductImage (name, url) {
 }
 
 //initialize each Object
-
 new ProductImage('Bag', 'bag.jpg');
 new ProductImage('Banana', 'banana.jpg');
 new ProductImage('Bathroom', 'bathroom.jpg');
@@ -76,22 +77,19 @@ function renderPictures() {
     rightImgEl.src = right.url;
     rightImgEl.name = right.name;
 
-    //number of times each image was displayed
+    //increase number of times each image was displayed
     left.timesDisplayed = left.timesDisplayed + 1;
     middle.timesDisplayed = middle.timesDisplayed + 1;
     right.timesDisplayed = right.timesDisplayed + 1;
 
-    //ADD FEATURE: CANNOT HAS SAME PIC IN CONSECUTIVE RENDERS
+    //prevent consecutive renders
     unavailableImgs.push(left, middle, right);
     availableImages = [];
     for (let i = 0; i < allImages.length; i++){
       if(allImages[i] !== unavailableImgs[0] && allImages[i] !== unavailableImgs[1] && allImages[i] !== unavailableImgs[2]){
         availableImages.push(allImages[i]);
-      } 
-    
-
-
-    }console.log(availableImages) 
+      }
+    }
     unavailableImgs = [];
   }
 }
@@ -100,13 +98,13 @@ function renderPictures() {
 function handleClick(event){
   event.preventDefault();
 
-  // increase number of votes
-  totalVotes = totalVotes - 1;
+  // Update votes remaining
+  remainingVotes = remainingVotes - 1;
 
   //Display Results Button if totalVotes = 25
-  if(totalVotes === 0){
+  if(remainingVotes === 0){
     activateButton();
-  }else if(totalVotes > 0){
+  }else if(remainingVotes > 0){
 
     //increase the times clicked
     let imageTarget = event.target;
@@ -211,36 +209,29 @@ function renderChart(){
 function postResults(){
   if(buttonClicked !== true){
     for (let i = 0; i < allImages.length; i++){
-      let perChosen = Math.floor((allImages[i].timesClicked / allImages[i].timesDisplayed) * 100);
+      let perChosen = Math.floor((allImages[i].timesClicked / allImages[i].timesDisplayed) * 100); //percentage of times chosen
       let newLI = document.createElement('li');
       newLI.innerText =  `${allImages[i].name}: ${allImages[i].timesClicked} clicks. Seen: ${allImages[i].timesDisplayed} times. ${perChosen}% selection rate.`;
       listEl.appendChild(newLI);
     }
-  } document.getElementById('resultHeader').style.visibility = 'visible';
-  listEl.style.overflow = 'scroll';
-  listEl.style.border = 'thin solid black';
-  buttonClicked = true;
-  renderChart();
-  console.log(allImages);
+    document.getElementById('resultHeader').style.visibility = 'visible';
+    listEl.style.overflow = 'scroll';
+    listEl.style.border = 'thin solid black';
+    buttonClicked = true;
+    renderChart();
+    //Implement local storage
+    if(parsedData === null){
+      localStorage.setItem('allResults', JSON.stringify(allImages));
+    } else{
+      for(let i = 0; i < parsedData.length; i++){
+        parsedData[i].timesClicked += allImages[i].timesClicked;
+        parsedData[i].timesDisplayed += allImages[i].timesDisplayed;
+      }console.log(parsedData);
+      localStorage.setItem('allResults', JSON.stringify(parsedData));
+    }
+  }
 }
-
-
-
-// let highToLow = [];
-// let highScore = allImages[0].timesClicked;
-
-
-//find the "highest scoring"
-// function tallyResults(){
-//   for (let i = 0; i < allImages.length - highToLow.length; i++){
-//     if (allImages[i].timesClicked > highScore){
-//       highScore = allImages[i];
-//     }
-//   }highToLow.push(highScore);
-// }
-
-
-
+console.log(parsedData);
 leftImgEl.addEventListener('click', handleClick);
 middleImgEl.addEventListener('click', handleClick);
 rightImgEl.addEventListener('click', handleClick);
