@@ -140,12 +140,19 @@ function renderChart(){
   const dataClicks = [];
   const dataDisplayed = [];
 
-  for (let i = 0; i < allImages.length; i++){
-    nameLabels.push(allImages[i].name);
-    dataClicks.push(allImages[i].timesClicked);
-    dataDisplayed.push(allImages[i].timesDisplayed);
+  if (parsedData === null){
+    for (let i = 0; i < allImages.length; i++){
+      nameLabels.push(allImages[i].name);
+      dataClicks.push(allImages[i].timesClicked);
+      dataDisplayed.push(allImages[i].timesDisplayed);
+    }
+  } if (parsedData !== null){
+    for (let i = 0; i < parsedData.length; i++){
+      nameLabels.push(parsedData[i].name);
+      dataClicks.push(parsedData[i].timesClicked);
+      dataDisplayed.push(parsedData[i].timesDisplayed);
+    }
   }
-
   //create new Chart, give it data
 
   let resultsChart = new Chart(ctx,{
