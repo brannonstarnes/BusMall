@@ -16,7 +16,9 @@ h1{
 main{
     margin:auto;
     max-height: 960px;
+    min-height: 300px;
     max-width: 66%;
+    border: thin solid white;
 }
 main p, footer p{
     margin:auto;
@@ -47,14 +49,13 @@ li{
     text-align: left;
 }
 #pics-container{
-    align-content: center;
+    text-align: center;
     height:600;
-
 }
 #pics-container img{
-    max-width: 32%;
-    max-height:32%;
-    object-fit: fill;
+    height:190px;
+    max-width: 340px;
+    object-fit: contain;
 }
 
 button{
@@ -67,7 +68,7 @@ button{
     font-weight: bolder;
     border-radius: 75px;
     visibility: hidden;
-    background-color: rgb(80, 79, 79);
+    background-color: rgb(77, 76, 76);
 }
 footer{
     max-width: 50%;
