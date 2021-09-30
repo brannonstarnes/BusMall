@@ -1,16 +1,21 @@
+
 *{
-    background-color: grey;
-    color:rgb(255, 255, 255);
+    background-color:#4C3B4D; 
+    color: #F4F7F5;
+}
+body{
+    margin: 0px;
 }
 header{
-    width:50%;
-    height: 50px;
+    width:100vw;
+    height: 110px;
     margin:auto;
-    margin-top: 50px;
-}
-h1{
-    font-family: 'Montserrat', sans-serif;
-    font-size: xx-large;
+    margin-top: 0px;
+    margin-left: 0px;
+    padding-top: 24px;
+    background-color: #587B7F;
+    font-family: 'Sonsie One', cursive;
+    font-size: 72pt;
     text-align: center;
 }
 main{
@@ -18,7 +23,7 @@ main{
     max-height: 960px;
     min-height: 300px;
     max-width: 66%;
-    border: thin solid white;
+    border: medium solid #CD533B;
 }
 main p, footer p{
     margin:auto;
@@ -75,4 +80,8 @@ footer{
     height: 50px;
     margin: auto;
     margin-top:40px;
+}
+canvas{
+    
+    margin: 40px;
 }
