@@ -120,7 +120,7 @@ function handleClick(event){
     renderPictures();
   }
 }
-
+//This allows the hidden button to become visible
 function activateButton(){
   let buttonEl = document.getElementById('button');
   buttonEl.style.height = '80px';
@@ -140,12 +140,14 @@ function renderChart(){
   const dataClicks = [];
   const dataDisplayed = [];
 
+  //if there is no stored data, use allImages to populate chart data
   if (parsedData === null){
     for (let i = 0; i < allImages.length; i++){
       nameLabels.push(allImages[i].name);
       dataClicks.push(allImages[i].timesClicked);
       dataDisplayed.push(allImages[i].timesDisplayed);
     }
+    //If there IS stored data, use the parsedData to populate chart
   } if (parsedData !== null){
     for (let i = 0; i < parsedData.length; i++){
       nameLabels.push(parsedData[i].name);
@@ -214,7 +216,7 @@ function renderChart(){
 
 
 function postResults(){
-  if(buttonClicked !== true){
+  if(buttonClicked !== true){//this ensures event can only occur once
     for (let i = 0; i < allImages.length; i++){
       let perChosen = Math.floor((allImages[i].timesClicked / allImages[i].timesDisplayed) * 100); //percentage of times chosen
       let newLI = document.createElement('li');
